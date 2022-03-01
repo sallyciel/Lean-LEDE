@@ -48,9 +48,6 @@ case "$FIRMWARE" in
 		# OEM assigns 4 sequential MACs
 		ath10k_patch_mac $(macaddr_setbit_la $(macaddr_add "$(cat /sys/class/net/eth0/address)" 4))
 		;;
-	p2w,r619ac)
-		caldata_extract "ART" 0x9000 0x2f20
-		;;
 	esac
 	;;
 "ath10k/pre-cal-ahb-a000000.wifi.bin")
@@ -149,6 +146,10 @@ case "$FIRMWARE" in
 	netgear,ex6200v2)
 		caldata_extract "ART" 0x1000 0x2f20
 		ath10k_patch_mac $(mtd_get_mac_binary dnidata 0x0)
+		;;
+	zte,mf263)
+		caldata_extract "0:ART" 0x1000 0x2f20
+		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary mac 0x0) +2)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
@@ -252,6 +253,10 @@ case "$FIRMWARE" in
 	netgear,ex6200v2)
 		caldata_extract "ART" 0x5000 0x2f20
 		ath10k_patch_mac $(mtd_get_mac_binary dnidata 0xc)
+		;;
+	zte,mf263)
+		caldata_extract "0:ART" 0x5000 0x2f20
+		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary mac 0x0) +3)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
